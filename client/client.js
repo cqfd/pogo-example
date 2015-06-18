@@ -1,10 +1,10 @@
 'use strict';
 
-const co = require('co');
+const pogo = require('./pogo');
 const Promise = require('bluebird');
 const sleep = Promise.delay
 
-co(function*() {
+pogo(function*() {
   while (true) {
     console.log("tick");
     yield sleep(1000);
