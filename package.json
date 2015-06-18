@@ -40,12 +40,13 @@
     "camelize": "*",
     "lodash": "*",
     "moment": "*",
-    "react": "*"
-  },
-  "devDependencies": {
+    "react": "*",
+
     "babel": "*",
     "babelify": "*",
-    "browserify": "*",
+    "browserify": "*"
+  },
+  "devDependencies": {
     "watchify": "*"
   }
 }
