@@ -1,14 +1,8 @@
 {
-  "name": "grailed",
+  "name": "pogo-example",
   "version": "1.0.0",
-  "description": "Use Grailed to find high end pieces from the designers you love.",
-  "main": "index.js",
-  "directories": {
-    "doc": "doc"
-  },
   "scripts": {
     "watch-client": "watchify client/client.js -o app/assets/javascripts/bundle.js --verbose",
-    "test": "",
     "postinstall": "browserify client/client.js -o app/assets/javascripts/bundle.js"
   },
   "browserify": {
@@ -21,28 +15,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/grailed-code/grailed.git"
+    "url": "https://github.com/happy4crazy/pogo-example.git"
   },
-  "keywords": [
-    "grailed",
-    "clothes",
-    "designers"
-  ],
-  "author": "Grailed Inc.",
-  "bugs": {
-    "url": "https://github.com/grailed-code/grailed/issues"
-  },
-  "homepage": "https://github.com/grailed-code/grailed",
   "dependencies": {
-    "babel-runtime": "*",
-    "co": "*",
     "bluebird": "*",
-    "camelize": "*",
     "lodash": "*",
-    "moment": "*",
     "react": "*",
 
     "babel": "*",
+    "babel-runtime": "*",
     "babelify": "*",
     "browserify": "*"
   },
