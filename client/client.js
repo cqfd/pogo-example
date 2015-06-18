@@ -5,7 +5,7 @@ import Promise from 'bluebird';
 const sleep = Promise.delay;
 
 function listen(el, type) {
-  const ch = pogo.chan(1);
+  const ch = pogo.chan();
   el.addEventListener(type, e => ch.putAsync(e));
   return ch;
 }
@@ -39,7 +39,9 @@ $(() => {
 
   pogo(function*() {
     while (true) {
-      console.log("I'm running too :)");
+      console.log("tick");
+      yield sleep(1000);
+      console.log("tock");
       yield sleep(1000);
     }
   });
