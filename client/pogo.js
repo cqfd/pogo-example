@@ -92,6 +92,14 @@ class Unbuffered {
     });
   }
 
+  putAsync(val) {
+    this.takings = this.takings.filter(t => isLive(t.taker));
+    if (!this.takings.length) return this.putings.push({ val: val, async: true });
+    const taking = this.takings.shift();
+    if (isAlt(taking.taker)) taking.taker.isLive = false;
+    taking.resolve(val);
+  }
+
   take(taker) {
     this.putings = this.putings.filter(p => isLive(p.puter));
     const takings = this.takings;
@@ -108,8 +116,10 @@ class Unbuffered {
       }
 
       const puting = putings.shift();
-      if (isAlt(puting.puter)) puting.puter.isLive = false;
-      puting.resolve();
+      if (!puting.async) {
+        if (isAlt(puting.puter)) puting.puter.isLive = false;
+        puting.resolve();
+      }
 
       if (isAlt(taker)) taker.isLive = false;
       resolve(puting.val);
