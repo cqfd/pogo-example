@@ -9,7 +9,7 @@
   "scripts": {
     "watch-client": "watchify client/client.js -o app/assets/javascripts/bundle.js --verbose",
     "test": "",
-    "post-install": "browserify client/client.js -o app/assets/javascripts/bundle.js"
+    "postinstall": "browserify client/client.js -o app/assets/javascripts/bundle.js"
   },
   "browserify": {
     "verbose": true,
