@@ -1,5 +1,5 @@
 class WelcomeController < ApplicationController
   def index
-    render(plain: "Hi there!")
+    @msg = "Hi there!"
   end
 end

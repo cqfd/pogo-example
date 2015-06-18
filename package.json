@@ -7,15 +7,15 @@
     "doc": "doc"
   },
   "scripts": {
-    "build-client": "browserify client/client.js -o app/assets/javascripts/bundle.js",
     "watch-client": "watchify client/client.js -o app/assets/javascripts/bundle.js --verbose",
-    "test": ""
+    "test": "",
+    "post-install": "browserify client/client.js -o app/assets/javascripts/bundle.js"
   },
   "browserify": {
     "verbose": true,
     "transform": [
       [
-        "babelify"
+        "babelify", { "optional": ["runtime"] }
       ]
     ]
   },
@@ -34,15 +34,18 @@
   },
   "homepage": "https://github.com/grailed-code/grailed",
   "dependencies": {
-    "babel": "^5.5.8",
-    "babelify": "^6.1.2",
-    "browserify": "^10.2.4",
-    "camelize": "^1.0.0",
-    "lodash": "^3.9.3",
-    "moment": "^2.10.3",
-    "react": "^0.13.3"
+    "babel-runtime": "*",
+    "co": "*",
+    "bluebird": "*",
+    "camelize": "*",
+    "lodash": "*",
+    "moment": "*",
+    "react": "*"
   },
   "devDependencies": {
+    "babel": "*",
+    "babelify": "*",
+    "browserify": "*",
     "watchify": "*"
   }
 }
