@@ -23,6 +23,7 @@ export default function pogo(star, args) {
 
     function next(instr) {
       if (isPromise(instr)) return instr.then(bounce, toss);
+      if (isGen(instr)) return pogo(instr).then(bounce, toss);
       if (instr instanceof Unbuffered) return instr.take(gen).then(bounce);
       if (instr instanceof Put) return instr.ch.put(gen, instr.val).then(bounce);
       if (instr instanceof Alts) {
@@ -92,9 +93,10 @@ class Unbuffered {
     });
   }
 
-  putAsync(val) {
+  putAsync(val, resolve) {
+    resolve = resolve || (() => {});
     this.takings = this.takings.filter(t => isLive(t.taker));
-    if (!this.takings.length) return this.putings.push({ val: val, async: true });
+    if (!this.takings.length) return this.putings.push({ val: val, puter: 'async', resolve: resolve });
     const taking = this.takings.shift();
     if (isAlt(taking.taker)) taking.taker.isLive = false;
     taking.resolve(val);
@@ -116,10 +118,8 @@ class Unbuffered {
       }
 
       const puting = putings.shift();
-      if (!puting.async) {
-        if (isAlt(puting.puter)) puting.puter.isLive = false;
-        puting.resolve();
-      }
+      if (isAlt(puting.puter)) puting.puter.isLive = false;
+      puting.resolve();
 
       if (isAlt(taker)) taker.isLive = false;
       resolve(puting.val);
@@ -129,5 +129,6 @@ class Unbuffered {
 pogo.chan = () => new Unbuffered();
 
 const isPromise = x => typeof x.then === 'function';
+const isGen = x => typeof x.next === 'function' && typeof x.throw === 'function';
 const isAlt = x => x.isLive != undefined;
 const isLive = x => x.isLive || x.isLive === undefined;

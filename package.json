@@ -2,16 +2,7 @@
   "name": "pogo-example",
   "version": "1.0.0",
   "scripts": {
-    "watch-client": "watchify client/client.js -o app/assets/javascripts/bundle.js --verbose",
-    "postinstall": "browserify client/client.js -o app/assets/javascripts/bundle.js"
-  },
-  "browserify": {
-    "verbose": true,
-    "transform": [
-      [
-        "babelify", { "optional": ["runtime"] }
-      ]
-    ]
+    "postinstall": "webpack"
   },
   "repository": {
     "type": "git",
@@ -20,14 +11,14 @@
   "dependencies": {
     "bluebird": "*",
     "lodash": "*",
+    "po-go": "0.0.1",
     "react": "*",
 
     "babel": "*",
+    "babel-loader": "*",
     "babel-runtime": "*",
-    "babelify": "*",
-    "browserify": "*"
+    "webpack": "*"
   },
   "devDependencies": {
-    "watchify": "*"
   }
 }

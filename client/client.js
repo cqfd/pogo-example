@@ -1,11 +1,52 @@
 'use strict';
 
-import pogo, { alts, chan } from './pogo';
+import pogo, { alts, chan } from 'po-go';
+import React, { Component } from 'react';
 import Promise from 'bluebird';
+import _ from 'lodash';
 const sleep = Promise.delay;
 
-function listen(el, type) {
-  const ch = pogo.chan();
+class NumbersList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      numbers: this.props.initialNumbers,
+      scrolls: pogo.chan()
+    };
+  }
+
+  render() {
+    return <ul>{ this.state.numbers.map(n => <li>{n}</li>) }</ul>;
+  }
+
+  componentDidMount() {
+    listen(window, 'scroll', this.state.scrolls);
+    pogo(function*() {
+      if (bottomGap() < 1000) yield this.fetchNewNumbers();
+      while (true) {
+        yield this.state.scrolls;
+        if (bottomGap() < 1000) yield this.fetchNewNumbers();
+      }
+    }.bind(this));
+  }
+
+  *fetchNewNumbers() {
+    const latestNumber = this.state.numbers[this.state.numbers.length - 1];
+    const newNumbers = yield getNumbers(latestNumber + 1, 50);
+    this.setState({ numbers: this.state.numbers.concat(newNumbers) });
+  }
+}
+
+function bottomGap() {
+  return $(document).height() - $(window).height() - $(document).scrollTop();
+}
+
+function getNumbers(offset, limit) {
+  return $.get("/numbers", { offset: offset, limit: limit }, null, 'json');
+}
+
+function listen(el, type, ch) {
+  ch = ch || pogo.chan();
   el.addEventListener(type, e => ch.putAsync(e));
   return ch;
 }
@@ -19,6 +60,8 @@ const moves = listen(document, 'mousemove');
 let moveCount = 0;
 
 $(() => {
+  React.render(<NumbersList initialNumbers={_.range(0, 10)} />, document.getElementById('numbers'));
+
   const msgEl = document.getElementById('msg');
 
   pogo(function*() {
@@ -36,14 +79,4 @@ $(() => {
       }
     }
   }).then(v => console.log("v", v), e => console.log("e", e));
-
-  pogo(function*() {
-    while (true) {
-      console.log("tick");
-      yield sleep(1000);
-      console.log("tock");
-      yield sleep(1000);
-    }
-  });
-
 });
