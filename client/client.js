@@ -38,7 +38,7 @@ class NumbersList extends Component {
   }
 }
 
-function bottomGap() {
+export function bottomGap() {
   return $(document).height() - $(window).height() - $(document).scrollTop();
 }
 
