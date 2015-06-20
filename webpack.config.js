@@ -11,6 +11,10 @@ var config = module.exports = {
   module: {
     loaders: [
       {
+        test: require.resolve('./client/client'),
+        loader: 'expose?Client'
+      },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
         query: { optional: ['runtime']},

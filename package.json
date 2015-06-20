@@ -2,6 +2,7 @@
   "name": "pogo-example",
   "version": "1.0.0",
   "scripts": {
+    "watch": "webpack --watch",
     "postinstall": "webpack"
   },
   "repository": {
@@ -10,14 +11,16 @@
   },
   "dependencies": {
     "bluebird": "*",
+    "immutable": "*",
     "lodash": "*",
     "po-go": "0.0.1",
     "react": "*",
 
+    "webpack": "*",
+    "expose-loader": "*",
     "babel": "*",
     "babel-loader": "*",
-    "babel-runtime": "*",
-    "webpack": "*"
+    "babel-runtime": "*"
   },
   "devDependencies": {
   }
